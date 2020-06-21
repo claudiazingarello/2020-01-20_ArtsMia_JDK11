@@ -3,6 +3,8 @@ package it.polito.tdp.artsmia;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import com.sun.javafx.binding.StringFormatter;
+
 import it.polito.tdp.artsmia.model.Model;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -31,7 +33,7 @@ public class FXMLController {
     private Button btnCalcolaPercorso;
 
     @FXML
-    private ComboBox<?> boxRuolo;
+    private ComboBox<String> boxRuolo;
 
     @FXML
     private TextField txtArtista;
@@ -51,7 +53,18 @@ public class FXMLController {
 
     @FXML
     void doCreaGrafo(ActionEvent event) {
-
+    	txtResult.clear();
+    	
+    	String ruolo = boxRuolo.getValue();
+    	
+    	if(ruolo == null) {
+    		txtResult.appendText("Devi scegliere un ruolo");
+    		return;
+    	}
+    	
+    	this.model.creaGrafo(ruolo);
+    	txtResult.appendText(String.format("Grafo creato!\n#%d vertici\n#%d archi", model.vertici(), model.archi()));
+    	
     }
 
     @FXML
@@ -67,6 +80,8 @@ public class FXMLController {
 
 	public void setModel(Model model) {
 		this.model = model;
+		
+		boxRuolo.getItems().addAll(this.model.listRole());
 	}
 }
 
