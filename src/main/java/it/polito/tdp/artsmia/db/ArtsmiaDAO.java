@@ -80,7 +80,7 @@ public class ArtsmiaDAO {
 			ResultSet res = st.executeQuery();
 			while (res.next()) {
 				Artist a = new Artist(res.getInt("artist_id"), res.getString("name"));
-				
+
 				if(!result.containsKey(a.getArtist_id()))
 					result.put(a.getArtist_id(), a);
 			}
@@ -93,8 +93,8 @@ public class ArtsmiaDAO {
 			return null;
 		}
 	}
-	*/
-	
+	 */
+
 	public List<String> listRole() {
 
 		String sql = "SELECT DISTINCT a.role " + 
@@ -119,14 +119,14 @@ public class ArtsmiaDAO {
 			return null;
 		}
 	}
-	
+
 	/*
 	 * in questo caso, trovo solo i vertici
-	 *
-	public List<Artist> listArtistByRole(Map<Integer, Artist> map, String role) {
+	 */
+	public List<Integer> listArtistByRole(String role) {
 
 		String sql = "SELECT * from authorship WHERE role = ?";
-		List<Artist> result = new ArrayList<Artist>();
+		List<Integer> result = new ArrayList<Integer>();
 		Connection conn = DBConnect.getConnection();
 
 		try {
@@ -135,10 +135,8 @@ public class ArtsmiaDAO {
 			ResultSet res = st.executeQuery();
 			while (res.next()) {
 
-				if(map.containsKey(res.getInt("artist_id"))) {
-					Artist a = map.get(res.getInt("artist_id"));
-					result.add(a);
-				}
+				result.add(res.getInt("artist_id"));
+
 			}
 			conn.close();
 			return result;
@@ -148,8 +146,8 @@ public class ArtsmiaDAO {
 			return null;
 		}
 	}
-	*/
- 
+
+
 	/*
 	 * In questo invece trovo archi e vertici INSIEME
 	 */
@@ -161,7 +159,7 @@ public class ArtsmiaDAO {
 				"AND au2.object_id = eo2.object_id AND au1.object_id <> au2.object_id AND eo1.exhibition_id = eo2.exhibition_id and au1.role = ? AND au1.role = au2.role " + 
 				"AND a1.artist_id = au1.artist_id AND a2.artist_id = au2.artist_id " + 
 				"GROUP BY au1.artist_id, au2.artist_id";
-		
+
 		List<Adiacenza> result = new ArrayList<>();
 		Connection conn = DBConnect.getConnection();
 

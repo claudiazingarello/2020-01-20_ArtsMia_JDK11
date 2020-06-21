@@ -1,10 +1,12 @@
 package it.polito.tdp.artsmia;
 
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import com.sun.javafx.binding.StringFormatter;
 
+import it.polito.tdp.artsmia.model.Adiacenza;
 import it.polito.tdp.artsmia.model.Model;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -43,7 +45,17 @@ public class FXMLController {
 
     @FXML
     void doArtistiConnessi(ActionEvent event) {
-
+    	txtResult.clear();
+    	
+    	List<Adiacenza> adiacenze = this.model.getArtistiConnessi();
+    	
+    	if(adiacenze == null) {
+    		txtResult.appendText("Devi creare prima il grafo");
+    		return;
+    	}
+    	for(Adiacenza a : adiacenze) {
+    		txtResult.appendText(a.toString() +"\n");
+    	}
     }
 
     @FXML
